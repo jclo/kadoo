@@ -10,7 +10,10 @@
 
 [![NPM install][npm-install-image]][npm-install-url]
 
-`Kadoo` encapsulates each javascript source file inside an IIFE module and the whole inside an UMD module. The generated output is an UMD library that could run on both Node.js and the browsers.
+
+`Kadoo` is an ultralight bundler that encapsulates each javascript source file inside an IIFE module and the whole inside an UMD module. The generated output is an UMD library that could run on both Node.js and the browsers.
+
+`Kadoo` is an ideal tool for whose who don't like that their code is polluted by a lot of foreign code. `Kadoo` adds only two lines to your library and replace the `import` and `export` keywords by links that interconnect your modules.
 
 
 
@@ -21,7 +24,15 @@ Write your source files with the `import` and `export` statements like this:
 ```javascript
 import A from '../a';
 
-... your code
+// Your public methods:
+const B = {
+  a() {
+    ...
+  },
+  b() {
+    ...
+  },
+}
 
 export default B;
 ```
@@ -38,7 +49,7 @@ The resulting output looks like:
 
   ... your unaltered code
 
-  $__TREE.extend($TREE.src.x.z, B);
+  $__TREE.extend($TREE.src.x.b, B);
 }());
 ```
 
@@ -46,7 +57,7 @@ Then, it bundles all the files, of your project, in a unique output file. As eac
 
 The IIFE modules are connected together by the links that replace the `import` and `export` statements.
 
-When you look at the resulting output, you can see that your code is almost not altered. `Kadoo` adds just two lines at the top of your library in addition to the links that replace `import` and `export`.
+When you look at the resulting output, you can see that your code is almost not altered. `Kadoo` adds just two lines at the top of your library in addition to the links that replace the `import` and `export` keywords.
 
 [ES6Kadoo](https://www.npmjs.com/package/@mobilabs/es6kadoo) is a boilerplate that allows you writing libraries that rely on `Kadoo`.
 

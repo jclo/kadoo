@@ -401,8 +401,9 @@ function _parse(fifo, packets, tree, rpath, callback) {
  * @returns {}              -,
  * @since 0.0.0,
  */
-module.exports = function(input, packets, tree, callback) {
-  const rpath = path.resolve(path.parse(input).root)
+module.exports = function(file, packets, tree, callback) {
+  const rpath = path.resolve(path.parse(file).root)
+      , input = path.relative(rpath, file)
       , fifo  = []
       ;
 
