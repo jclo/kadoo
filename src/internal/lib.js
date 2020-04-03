@@ -10,9 +10,9 @@
  *  . _computeLink                computes the link from the imported node module,
  *  . _replaceTags                adds the exported name and the reference to the parent,
  *  . _addInfos                   surrounds the library by the collected information,
- *  . _searchForModuleExports     searches for the module export line,
- *  . _searchForLibName           searches for the exported name,
- *  . _searchForThis              searches for the this,
+ *  . _searchFirstSignature       searches for the first library signature,
+ *  . _searchSecondSignature      searches for the second library signature,
+ *  . _searchThirdSignature       searches for the third library signature,
  *  . _parse                      parses the library line by line,
  *
  *
@@ -123,46 +123,61 @@ function _addInfos(packet, revcontents) {
 /* eslint-enable no-param-reassign */
 
 /**
- * Searches for the module export line.
- *
- * Nota:
- * We search for the sequence 'module.exports = factory(root)'. If the
- * sequence is found, we add an extra line containing 'root.{Lib} = factory(root);'
- * to reference the library when we conducts the tests in Node.
+ * Searches for the first library signature.
+ * (pattern: "if (typeof define === 'function' && define.amd)")
  *
  * @function (arg1)
  * @private
- * @param {String}          the selected line,
- * @returns {String/null}   returns the modified line or null,
+ * @param {String}          the current line,
+ * @returns {Boolean}       returns true if the signature is found,
  * @since 0.0.0
  */
-function _searchForModuleExports(line) {
+function _searchFirstSignature(line) {
+  const s = line.trim().split(' ');
+  if (s[0] === 'if'
+      && s[1] === '(typeof'
+      && s[2] === 'define'
+      && s[3] === '==='
+      && s[4] === '\'function\''
+      && s[5] === '&&'
+      && s[6] === 'define.amd)') {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Searches for the second library signature.
+ * (pattern: "module.exports = factory(root);")
+ *
+ * @function (arg1)
+ * @private
+ * @param {String}          the current line,
+ * @returns {Boolean}       returns true if the signature is found,
+ * @since 0.0.0
+ */
+function _searchSecondSignature(line) {
   const s = line.trim().split(' ');
   if (s[0] === 'module.exports'
     && s[1] === '='
     && s[2] === 'factory(root);'
   ) {
-    const wc = `${INDENT4}${'\x20'.repeat(line.search(/\S/))}`;
-    const edisable = '/* eslint-disable-next-line no-param-reassign */';
-    return `${line}\n${wc}${edisable}\n${wc}root.{{lib:name}} = factory(root);`;
+    return true;
   }
-  return null;
+  return false;
 }
 
 /**
- * Searches for the exported name.
- *
- * Nota:
- * We search here the sequence 'root.{Lib} = factory(root);' If the
- * sequence is found, we get the exported name (i.e. {Lib} here).
+ * Searches for the third library signature.
+ * (pattern: "root.LibName = factory(root);")
  *
  * @function (arg1)
  * @private
- * @param {String}          the selected line,
- * @returns {String/null}   returns the modified line or null,
+ * @param {String}          the current line,
+ * @returns {Boolean}       returns true if the signature is found,
  * @since 0.0.0
  */
-function _searchForLibName(line) {
+function _searchThirdSignature(line) {
   const s = line.trim().split(' ');
 
   if (s[0].startsWith('root.')
@@ -171,25 +186,23 @@ function _searchForLibName(line) {
   ) {
     return s[0].slice(5);
   }
-  return null;
+  return false;
 }
 
-
-// search for this: }(this, (root) => {
-
 /**
- * Searches for the this.
+ * Searches for the fourth library signature.
+ * (pattern: "this: }(this, (root) => {")
  *
  * @function (arg1)
  * @private
- * @param {String}          the selected line,
- * @returns {String/null}   returns the modified line or null,
+ * @param {String}          the current line,
+ * @returns {Boolean}       returns true if the signature is found,
  * @since 0.0.0
  */
-function _searchForThis(line) {
+function _searchFourthSignature(line) {
   const s = line.trim();
   if (s === '}(this, (root) => {') {
-    return line.replace('this', '{{lib:link}}');
+    return true;
   }
   return null;
 }
@@ -207,7 +220,8 @@ function _searchForThis(line) {
  */
 /* eslint-disable no-param-reassign */
 function _parse(packets, packet, callback) {
-  const bufferStream = new stream.PassThrough()
+  const MAXCOUNT = 50
+      , bufferStream = new stream.PassThrough()
       ;
 
   bufferStream.end(Buffer.from(packet.contents));
@@ -217,32 +231,88 @@ function _parse(packets, packet, callback) {
   });
 
   let revcontents = ''
-    , libname
-    , name
+    , libname = 'unknown'
+    , count = 0
+    , sig1 = false
+    , sig2 = false
+    , sig3 = false
+    , sig4 = false
+    , wc
     , l
-    , ex
-    , that
     ;
 
   rl.on('line', (line) => {
-    ex = _searchForModuleExports(line);
-    name = _searchForLibName(line);
-    that = _searchForThis(line);
-
-    if (ex) {
-      revcontents += `${INDENT4}${ex}\n`;
-    } else if (name) {
-      libname = name;
+    if (!sig1) {
+      sig1 = _searchFirstSignature(line);
       l = `${INDENT4}${line}`.trimEnd();
       revcontents += `${l}\n`;
-    } else if (that) {
-      l = `${INDENT4}${that}`.trimEnd();
-      revcontents += `${l}\n`;
-    } else {
-      l = `${INDENT4}${line}`.trimEnd();
-      revcontents += `${l}\n`;
+      count += 1;
+      if (count > MAXCOUNT) {
+        throw new Error(
+          `We haven't found the first signature of the library ${packet.path}`,
+        );
+      }
+      return;
     }
+
+    if (!sig2) {
+      l = `${INDENT4}${line}`.trimEnd();
+      sig2 = _searchSecondSignature(line);
+      if (sig2) {
+        // If the signature is found, we add an extra line containing
+        // 'root.{Lib} = factory(root);' to reference the embedded library
+        // when the library is run on Node.js.
+        wc = `${INDENT4}${'\x20'.repeat(line.search(/\S/))}`;
+        l += `\n${wc}/* eslint-disable-next-line no-param-reassign */`;
+        l += `\n${wc}root.{{lib:name}} = factory(root);`;
+      }
+      revcontents += `${l}\n`;
+      count += 1;
+      if (count > MAXCOUNT) {
+        throw new Error(
+          `We haven't found the second signature of the library ${packet.path}`,
+        );
+      }
+      return;
+    }
+
+    if (!sig3) {
+      sig3 = _searchThirdSignature(line);
+      if (sig3) {
+        libname = sig3;
+      }
+      l = `${INDENT4}${line}`.trimEnd();
+      revcontents += `${l}\n`;
+      count += 1;
+      if (count > MAXCOUNT) {
+        throw new Error(
+          `We haven't found the third signature of the library ${packet.path}`,
+        );
+      }
+      return;
+    }
+
+    if (!sig4) {
+      l = `${INDENT4}${line}`.trimEnd();
+      sig4 = _searchFourthSignature(line);
+      if (sig4) {
+        l = l.replace('this', '{{lib:link}}');
+      }
+      revcontents += `${l}\n`;
+      count += 1;
+      if (count > MAXCOUNT) {
+        throw new Error(
+          `We haven't found the fourth signature of the library ${packet.path}`,
+        );
+      }
+      return;
+    }
+
+    // indent until the end:
+    l = `${INDENT4}${line}`.trimEnd();
+    revcontents += `${l}\n`;
   });
+
 
   rl.on('close', () => {
     const link = _computeLink(packets, packet.path.replace('.js', ''));

@@ -49,7 +49,7 @@ The resulting output looks like:
 
   ... your unaltered code
 
-  $__TREE.extend($TREE.src.x.b, B);
+  $__TREE.extend($__TREE.src.x.b, B);
 }());
 ```
 
