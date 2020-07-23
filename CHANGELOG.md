@@ -8,4 +8,5 @@
   * Reworked the parse algorithm to enable embedding kadoo libraries inside a kadoo library,
   * Second release candidate,
   * Updated the dependencies,
+  # Third release candidate,
   * ...,
