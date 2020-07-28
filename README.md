@@ -11,9 +11,9 @@
 [![NPM install][npm-install-image]][npm-install-url]
 
 
-`Kadoo` is an ultralight bundler that encapsulates each javascript source file inside an IIFE module and the whole inside an UMD module. The generated output is an UMD library that could run on both Node.js and the browsers.
+`Kadoo` is an ultralight bundler that encapsulates each javascript source file inside an IIFE module and the whole inside an UMD module or an ES6 module. The generated output is an UMD library, or an ES6 module, that could run on both Node.js and the browsers.
 
-`Kadoo` is an ideal tool for whose who don't like that their code is polluted by a lot of foreign code. `Kadoo` adds only two lines to your library and replace the `import` and `export` keywords by links that interconnect your modules.
+`Kadoo` is an ideal tool for those who don't like that their code is polluted by a lot of foreign code. `Kadoo` adds only two lines to your library and replace the `import` and `export` keywords by links that interconnect your modules.
 
 
 
@@ -57,7 +57,7 @@ Then, it bundles all the files, of your project, in a unique output file. As eac
 
 The IIFE modules are connected together by the links that replace the `import` and `export` statements.
 
-When you look at the resulting output, you can see that your code is almost not altered. `Kadoo` adds just two lines at the top of your library in addition to the links that replace the `import` and `export` keywords.
+When you look at the resulting output, you can see that your code is almost unaltered. `Kadoo` adds just two lines at the top of your library in addition to the links that replace the `import` and `export` keywords.
 
 [ES6Kadoo](https://www.npmjs.com/package/@mobilabs/es6kadoo) is a boilerplate that allows you writing libraries that rely on `Kadoo`.
 
@@ -67,7 +67,7 @@ When you look at the resulting output, you can see that your code is almost not 
 ### From a command line
 
 ```bash
-./node_modules/.bin/kadoo build --name './src/main.js' --outpout '/dist/bundle.js'
+./node_modules/.bin/kadoo build --name './src/main.js' --outpout '/dist/bundle.js' --type 'umd'
 ```
 
 ### From a Javascript script
@@ -75,7 +75,10 @@ When you look at the resulting output, you can see that your code is almost not 
 ```javascript
 const Kadoo = require('kadoo');
 
-const kadoo = Kadoo('./src/main.js');
+// By default, the generated output is an UMD module.
+// If you want to generate an ES6 module, you have
+// to specify 'es6' as the type.
+const kadoo = Kadoo('./src/main.js', { type: 'umd'});
 
 kadoo.get((data) => {
   fs.writeFile('./dist/bundle.js', data, 'utf8', (err) => {
@@ -90,7 +93,10 @@ kadoo.get((data) => {
 ```javascript
 const Kadoo = require('kadoo');
 
-const kadoo = Kadoo('./src/main.js', { });
+// By default, the generated output is an UMD module.
+// If you want to generate an ES6 module, you have
+// to specify 'es6' as the type.
+const kadoo = Kadoo('./src/main.js', { type: 'es6' });
 
 function build() {
   return kadoo.bundle()

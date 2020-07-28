@@ -20,6 +20,7 @@
 
 module.exports = {
   TREE: '$__TREE',
+  ES6GLOB: '$__ES6GLOB',
   LIBIN: 'libin',
   INDENT2: '\x20\x20',
   INDENT4: '\x20\x20\x20\x20',

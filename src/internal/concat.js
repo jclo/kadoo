@@ -11,7 +11,7 @@
  *  . _getIifeContents            concatenates all the IIFE modules,
  *  . _getLibContents             concatenates all the library modules,
  *  . _split                      Returns the list of modules and libraries,
- *  . _concat                     merges everything in an UMD module,
+ *  . _concat                     merges everything in an UMD or ES6 module,
  *
  *
  * Public Function:
@@ -53,6 +53,7 @@ const { header }  = config
     , { LIBIN }   = config
     , { INDENT2 } = config
     , { INDENT4 } = config
+    , { ES6GLOB } = config
     ;
 
 
@@ -205,18 +206,50 @@ function _split(packets) {
  * @returns {Object}        returns the resulting UMD Module as a buffer,
  * @since 0.0.0
  */
-function _concat(packets, tree, callback) {
+function _concat(packets, tree, type, callback) {
   const libname = packets[0].export.name
       , liblink = packets[0].export.link
       ;
 
   const [iife, elibs, elinks] = _split(packets);
 
-  const head = fs.readFileSync(header, 'utf8').replace(/{{lib:name}}/g, libname);
+  let head;
+  let foot;
+  let exportM;
+  switch (type) {
+    case 'generic':
+      head = fs.readFileSync(header, 'utf8').replace(/{{lib:name}}/g, libname);
+      foot = fs.readFileSync(footer, 'utf8').replace('{{lib:name:link}}', `${TREE}.${liblink}`);
+      break;
+
+    case 'es6':
+      head = fs.readFileSync(header, 'utf8')
+        .replace(/{{lib:name}}/g, libname)
+        .replace('{{lib:es6:define}}', `const ${ES6GLOB} = {};`)
+        .replace('{{lib:es6:link}}', ES6GLOB);
+
+      exportM = '\n// -- Export\n';
+      exportM += `export default ${ES6GLOB}.${libname};`;
+      foot = fs.readFileSync(footer, 'utf8')
+        .replace('{{lib:name:link}}', `${TREE}.${liblink}`)
+        .replace('{{lib:es6:export}}', exportM);
+      break;
+
+    default:
+      // By default, we consider it is an umd module
+      head = fs.readFileSync(header, 'utf8')
+        .replace(/{{lib:name}}/g, libname)
+        .replace('{{lib:es6:define}}\n', '')
+        .replace('{{lib:es6:link}}', 'this');
+
+      foot = fs.readFileSync(footer, 'utf8')
+        .replace('{{lib:name:link}}', `${TREE}.${liblink}`)
+        .replace('{{lib:es6:export}}\n', '');
+  }
+
   const treeSection = T.get(tree, elibs);
   const iifecontents = _getIifeContents(iife);
   const libcontents = _getLibContents(elibs);
-  const foot = fs.readFileSync(footer, 'utf8').replace('{{lib:name:link}}', `${TREE}.${liblink}`);
 
   _fixLibLinks(iifecontents, elinks, (revIIFEContents) => {
     let s = `${head}\n${treeSection}\n`;
@@ -232,17 +265,19 @@ function _concat(packets, tree, callback) {
 // -- Public -------------------------------------------------------------------
 
 /**
- * Concatenates all the modules and libraries in an UMD module.
+ * Concatenates all the modules and libraries in an UMD or ES6 module.
  *
- * @function (arg1, arg2)
+ * @function (arg1, arg2, arg3, arg4)
  * @public
  * @param {Array}           the list of modules and libraries,
  * @param {Object}          the object tree that links the modules together,
- * @returns {Object}        returns the resulting UMD Module as a buffer,
+ * @param {String}          the type of module to produce (generic, umd or es6),
+ * @param {Function}        the function to call at the completion,
+ * @returns {}              - ,
  * @since 0.0.0,
  */
-module.exports = function(packets, tree, callback) {
-  _concat(packets, tree, (data) => {
+module.exports = function(packets, tree, type, callback) {
+  _concat(packets, tree, type, (data) => {
     callback(data);
   });
 };

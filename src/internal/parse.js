@@ -394,14 +394,17 @@ function _parse(fifo, packets, tree, rpath, callback) {
 /**
  *  Parses the passed-in file and builds the resulting UMD Module.
  *
- * @function (arg1, arg3)
+ * @function (arg1, arg2, arg3, arg4, arg5)
  * @public
  * @param {String}          the path of the input file,
+ * @param {Array}           an empty array intended to contain the list of modules,
+ * @param {Object}          an empty object intended to contain the link between modules,
+ * @param {String}          the type of module to produce (generic, umd or es6),
  * @param {Function}        the function to call at the completion,
  * @returns {}              -,
  * @since 0.0.0,
  */
-module.exports = function(file, packets, tree, callback) {
+module.exports = function(file, packets, tree, type, callback) {
   const rpath = path.resolve(path.parse(file).root)
       , input = path.relative(rpath, file)
       , fifo  = []
@@ -419,7 +422,7 @@ module.exports = function(file, packets, tree, callback) {
   });
   fifo.push(input);
   _parse(fifo, packets, tree, rpath, () => {
-    concat(packets, tree, (data) => {
+    concat(packets, tree, type, (data) => {
       callback(data);
     });
   });

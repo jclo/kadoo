@@ -70,6 +70,7 @@ const Kadoo = function(app, options) {
   const obj = Object.create(methods);
   obj.app = app;
   obj.export = options && options.export ? options.export : 'MyBundle';
+  obj.type = options && options.type ? options.type : 'umd';
   obj.packets = [];
   obj.tree = {};
   return obj;
@@ -118,7 +119,7 @@ methods = {
    * @since 0.0.0
    */
   get(callback) {
-    parse(this.app, this.packets, this.tree, (buf) => {
+    parse(this.app, this.packets, this.tree, this.type, (buf) => {
       if (callback) {
         callback(buf);
       }

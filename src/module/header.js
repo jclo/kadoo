@@ -2,6 +2,7 @@
 /* global define */
 /* eslint no-shadow: ['error', { 'allow': ['root'] }] */
 /* eslint strict: ["error", "function"] */
+{{lib:es6:define}}
 (function(root, factory) {
   'use strict';
 
@@ -20,5 +21,5 @@
     /* eslint-disable-next-line no-param-reassign */
     root.{{lib:name}} = factory(root);
   }
-}(this, (root) => {
+}({{lib:es6:link}}, (root) => {
   'use strict';

@@ -47,12 +47,14 @@ const lib = 'Kadoo'
       version: [String, null],
       build: [Boolean, false],
       name: [String, null],
+      type: [String, null],
       output: [String, null],
     }
     , shortOpts = {
       h: ['--help'],
       v: ['--version', version],
       n: ['--name'],
+      t: ['--type'],
       o: ['--output'],
     }
     , parsed = nopt(opts, shortOpts, process.argv, 2)
@@ -74,13 +76,14 @@ function _help() {
   const message = ['',
     'Usage: command [options]',
     '',
-    'build               build the UMD module',
+    'build               build the UMD or ES6 module',
     '',
     'Options:',
     '',
     '-h, --help          output usage information',
     '-v, --version       output the version number',
     '-n, --name          the name of the app',
+    '-t, --type          the generated output "umd" or "es6"',
     '-o  --output        the output file',
     '',
   ].join('\n');
@@ -104,12 +107,23 @@ function _build(options) {
     _help();
   }
 
-  const kadoo = Kadoo(options.name, { });
+  const kadoo = Kadoo(options.name, { type: options.type });
   if (options.output) {
     kadoo.get((data) => {
       fs.writeFile(options.output, data, (err) => {
         if (err) throw err;
-        process.stdout.write(`The UMD module is saved in ${options.output}\n`);
+        switch (options.type) {
+          case 'generic':
+            process.stdout.write(`The generic module is saved in ${options.output}\n`);
+            break;
+
+          case 'es6':
+            process.stdout.write(`The ES6 module is saved in ${options.output}\n`);
+            break;
+
+          default:
+            process.stdout.write(`The UMD module is saved in ${options.output}\n`);
+        }
       });
     });
   } else {
