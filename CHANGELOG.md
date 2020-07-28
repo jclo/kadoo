@@ -10,4 +10,5 @@
   * Updated the dependencies,
   * Third release candidate,
   * Added the option to create an ES6 module,
+  * Fourth release candidate,
   * ...,
