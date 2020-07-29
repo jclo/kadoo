@@ -13,4 +13,5 @@
   * Fourth release candidate,
   * A few minor improvements,
   * Added the missing files,
+  * Fifth release candidate,
   * ...,
