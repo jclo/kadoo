@@ -1,6 +1,6 @@
 ### HEAD
 
-### 0.0.0 (July 28, 2020)
+### 0.0.0 (July 29, 2020)
 
   * Initial commit,
   * First build,
@@ -11,4 +11,5 @@
   * Third release candidate,
   * Added the option to create an ES6 module,
   * Fourth release candidate,
+  * A few minor improvements,
   * ...,

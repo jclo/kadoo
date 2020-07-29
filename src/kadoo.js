@@ -15,6 +15,7 @@
  *
  *
  * Private Methods:
+ *  . _dump                       prints the generated UMD module to stdout,
  *  . _getPacket                  returns the packet array,
  *  . _getTree                    returns the tree object,
  *
@@ -82,6 +83,26 @@ const Kadoo = function(app, options) {
 methods = {
 
   /**
+   * Prints the generated UMD module to stdout.
+   *
+   * @method (arg1, arg2)
+   * @private
+   * @param {Boolean}       dump to stdout or return to callback,
+   * @param {Function}      function to call at the completion if stdout is false,
+   * @returns {}            -,
+   * @since 0.0.0
+   */
+  _dump(stdout, callback) {
+    this.get((data) => {
+      if (stdout) {
+        process.stdout.write(`${data}\n`);
+      } else {
+        callback(data);
+      }
+    });
+  },
+
+  /**
    * Returns the packet array.
    *  (for debugging purpose)
    *
@@ -119,6 +140,8 @@ methods = {
    * @since 0.0.0
    */
   get(callback) {
+    this.packets = [];
+    this.tree = {};
     parse(this.app, this.packets, this.tree, this.type, (buf) => {
       if (callback) {
         callback(buf);
