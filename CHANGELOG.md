@@ -12,4 +12,5 @@
   * Added the option to create an ES6 module,
   * Fourth release candidate,
   * A few minor improvements,
+  * Added the missing files,
   * ...,
