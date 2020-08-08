@@ -15,4 +15,5 @@
   * Added the missing files,
   * Fifth release candidate,
   * Updated the project dependencies,
+  * Sixth release candidate,
   * ...,
