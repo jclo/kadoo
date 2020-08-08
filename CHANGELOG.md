@@ -1,6 +1,6 @@
 ### HEAD
 
-### 0.0.0 (July 29, 2020)
+### 0.0.0 (August 8, 2020)
 
   * Initial commit,
   * First build,
@@ -14,4 +14,5 @@
   * A few minor improvements,
   * Added the missing files,
   * Fifth release candidate,
+  * Updated the project dependencies,
   * ...,
