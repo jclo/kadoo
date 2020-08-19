@@ -17,4 +17,5 @@
   * Updated the project dependencies,
   * Sixth release candidate,
   * Updated the project dependencies,
+  * Seventh release candidate,
   * ...,
