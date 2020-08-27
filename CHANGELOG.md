@@ -19,4 +19,4 @@
   * Updated the project dependencies,
   * Seventh release candidate,
   * Updated the project dependencies,
-  * ...,
+  * Release.
