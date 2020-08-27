@@ -1,6 +1,6 @@
 {
   "name": "kadoo",
-  "version": "0.0.0-beta.7",
+  "version": "1.0.0",
   "description": "A tool to embed ES6 Javascript code into an UMD module",
   "main": "index.js",
   "bin": {
@@ -46,7 +46,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "husky": "^4.2.5",
-    "mocha": "^8.1.1",
+    "mocha": "^8.1.2",
     "nyc": "^15.1.0",
     "opener": "^1.5.1"
   },
