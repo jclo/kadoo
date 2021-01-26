@@ -1,6 +1,6 @@
 {
   "name": "kadoo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A tool to embed ES6 Javascript code into an UMD module",
   "main": "index.js",
   "bin": {
@@ -40,12 +40,12 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "del": "^6.0.0",
-    "eslint": "^7.13.0",
+    "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "husky": "^4.3.0",
+    "husky": "^4.3.8",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "opener": "^1.5.2"
