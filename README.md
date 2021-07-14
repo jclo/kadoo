@@ -122,7 +122,7 @@ function build() {
 [npm-url]: https://www.npmjs.com/package/kadoo
 [release-url]: https://github.com/jclo/kadoo/tags
 [commit-url]: https://github.com/jclo/kadoo/commits/master
-[travis-url]: https://travis-ci.org/jclo/kadoo
+[travis-url]: https://travis-ci.com/jclo/kadoo
 [coveralls-url]: https://coveralls.io/github/jclo/kadoo?branch=master
 [dependencies-url]: https://david-dm.org/jclo/kadoo
 [devdependencies-url]: https://david-dm.org/jclo/kadoo?type=dev

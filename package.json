@@ -1,6 +1,6 @@
 {
   "name": "kadoo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A tool to embed ES6 Javascript code into an UMD module",
   "main": "index.js",
   "bin": {
@@ -13,6 +13,7 @@
     "check-coverage": "nyc check-coverage --statements 0 --branches 0 --functions 0 --lines 0",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
+    "prepare": "husky install",
     "doc": ""
   },
   "repository": {
@@ -38,25 +39,20 @@
     "vinyl": "^2.2.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "coveralls": "^3.1.0",
+    "chai": "^4.3.4",
+    "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
     "del": "^6.0.0",
-    "eslint": "^7.18.0",
+    "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "husky": "^4.3.8",
-    "mocha": "^8.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "husky": "^7.0.1",
+    "mocha": "^9.0.2",
     "nyc": "^15.1.0",
     "opener": "^1.5.2"
   },
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test && npm run check-coverage && npm run report"
-    }
-  }
+  "private": false
 }
