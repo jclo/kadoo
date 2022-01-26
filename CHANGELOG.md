@@ -5,7 +5,7 @@
   * Fixed a typo in the README.md file w.r.t the badges,
   * Updated the project dependencies,
   * Updated the copyright,
-  * ...,
+  * Release.
 
 
 ### 1.0.5 (November 12, 2021)
