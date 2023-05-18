@@ -35,19 +35,19 @@
   },
   "homepage": "https://github.com/jclo/kadoo",
   "dependencies": {
-    "nopt": "^5.0.0",
-    "vinyl": "^2.2.1"
+    "nopt": "^7.1.0",
+    "vinyl": "^3.0.0"
   },
   "devDependencies": {
-    "chai": "^4.3.5",
+    "chai": "^4.3.7",
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
-    "del": "^6.0.0",
-    "eslint": "^7.32.0",
+    "del": "^6.1.1",
+    "eslint": "^8.40.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "husky": "^7.0.4",
-    "mocha": "^9.2.0",
+    "eslint-plugin-import": "^2.27.5",
+    "husky": "^8.0.3",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "opener": "^1.5.2"
   },
