@@ -3,7 +3,7 @@
 ### 1.0.7 (May 18, 2023)
 
   * Updated the project dependencies,
-  * ...,
+  * Release.
 
 
 ### 1.0.6 (January 26, 2022)
