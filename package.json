@@ -9,9 +9,9 @@
   "scripts": {
     "build": "node ./test/build.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js",
-    "display-coverage": "opener ./coverage/lcov-report/index.html",
-    "check-coverage": "nyc check-coverage --statements 50 --branches 30 --functions 50 --lines 50",
-    "report-coverage": "nyc report --reporter=text-lcov | coveralls",
+    "display:coverage": "opener ./coverage/lcov-report/index.html",
+    "check:coverage": "nyc check-coverage --statements 50 --branches 30 --functions 50 --lines 50",
+    "report:coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
     "prepare": "husky install",
     "doc": ""
@@ -35,17 +35,17 @@
   },
   "homepage": "https://github.com/jclo/kadoo",
   "dependencies": {
-    "nopt": "^7.1.0",
+    "nopt": "^7.2.0",
     "vinyl": "^3.0.0"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
+    "chai": "^4.4.0",
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
-    "del": "^6.1.1",
-    "eslint": "^8.40.0",
+    "del": "^7.1.0",
+    "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-import": "^2.29.1",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
