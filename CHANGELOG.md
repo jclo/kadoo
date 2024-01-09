@@ -5,6 +5,7 @@
   * Updated the project dependencies,
   * Replaced nyc by c8 as nyc doesn't work properly with mocha and node v18,
   * Removed Travis-CI,
+  * Added Github Actions as CI instead of Travis-CI,
   * ...,
 
 
