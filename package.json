@@ -8,11 +8,11 @@
   },
   "scripts": {
     "build": "node ./test/build.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js",
+    "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js",
     "display:coverage": "opener ./coverage/lcov-report/index.html",
-    "check:coverage": "nyc check-coverage --statements 50 --branches 30 --functions 50 --lines 50",
-    "report:coverage": "nyc report --reporter=text-lcov | coveralls",
-    "report": "nyc report",
+    "check:coverage": "c8 check-coverage --statements 50 --branches 30 --functions 50 --lines 50",
+    "report:coverage": "c8 report --reporter=text-lcov | coveralls",
+    "report": "c8 report",
     "prepare": "husky install",
     "doc": ""
   },
@@ -39,6 +39,7 @@
     "vinyl": "^3.0.0"
   },
   "devDependencies": {
+    "c8": "^9.0.0",
     "chai": "^4.4.0",
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
@@ -48,7 +49,6 @@
     "eslint-plugin-import": "^2.29.1",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "opener": "^1.5.2"
   },
   "publishConfig": {
