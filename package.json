@@ -1,6 +1,6 @@
 {
   "name": "kadoo",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "A tool to embed ES6 Javascript code into an UMD module",
   "main": "index.js",
   "bin": {
@@ -11,7 +11,6 @@
     "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js",
     "display:coverage": "opener ./coverage/lcov-report/index.html",
     "check:coverage": "c8 check-coverage --statements 50 --branches 30 --functions 50 --lines 50",
-    "report:coverage": "c8 report --reporter=text-lcov | coveralls",
     "report": "c8 report",
     "prepare": "husky install",
     "doc": ""
