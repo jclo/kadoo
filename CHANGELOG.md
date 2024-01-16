@@ -1,6 +1,12 @@
 ### HEAD
 
-### 1.1.0 (January 9, 2023)
+### 1.2.0 (January 16, 2024)
+
+  * Added the option to support import with or without .js extension,
+  * ...,
+
+
+### 1.1.0 (January 9, 2024)
 
   * Updated the project dependencies,
   * Replaced nyc by c8 as nyc doesn't work properly with mocha and node v18,

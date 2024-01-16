@@ -149,7 +149,10 @@ function _computeLink(packets, file) {
  * @since 0.0.0
  */
 function _pushToPackets(packets, fifo, f, parent, link) {
-  const file = path.relative(packets[0].base, `${f}.js`);
+  // const file = path.relative(packets[0].base, `${f}.js`);
+  const file = f.endsWith('.js')
+    ? path.relative(packets[0].base, f)
+    : path.relative(packets[0].base, `${f}.js`);
   let index;
 
   // Search if this file is already registered. If not, add it to
