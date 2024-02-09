@@ -6,7 +6,7 @@
 (function(root, factory) {
   'use strict';
 
-  /* istanbul ignore next */
+  /* c8 ignore start */
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define([''], factory);
@@ -21,5 +21,6 @@
     /* eslint-disable-next-line no-param-reassign */
     root.{{lib:name}} = factory(root);
   }
+  /* c8 ignore stop */
 }({{lib:es6:link}}, (root) => {
   'use strict';

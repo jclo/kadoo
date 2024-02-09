@@ -1,5 +1,11 @@
 ### HEAD
 
+### 1.2.1 (February 9, 2024)
+
+  * Replaced "istanbul ignore ..." with "c8 ignore ..." in the UMD header,
+  * ...,
+
+
 ### 1.2.0 (January 16, 2024)
 
   * Added the option to support import with or without .js extension,
