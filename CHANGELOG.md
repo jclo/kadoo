@@ -3,7 +3,7 @@
 ### 1.2.1 (February 9, 2024)
 
   * Replaced "istanbul ignore ..." with "c8 ignore ..." in the UMD header,
-  * ...,
+  * Release.
 
 
 ### 1.2.0 (January 16, 2024)
