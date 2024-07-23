@@ -1,5 +1,11 @@
 ### HEAD
 
+### 1.3.x (February 9, 2024)
+
+  * Updated the project dependencies,
+  * ...,
+
+
 ### 1.2.1 (February 9, 2024)
 
   * Replaced "istanbul ignore ..." with "c8 ignore ..." in the UMD header,
