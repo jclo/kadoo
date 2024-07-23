@@ -1,9 +1,9 @@
 ### HEAD
 
-### 1.3.x (February 9, 2024)
+### 1.3.0 (February 9, 2024)
 
   * Updated the project dependencies,
-  * ...,
+  * Release.
 
 
 ### 1.2.1 (February 9, 2024)

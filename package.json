@@ -1,6 +1,6 @@
 {
   "name": "kadoo",
-  "version": "1.3.x",
+  "version": "1.3.0",
   "description": "A tool to embed ES6 Javascript code into an UMD module",
   "main": "index.js",
   "bin": {
